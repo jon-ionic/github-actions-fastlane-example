@@ -16,16 +16,26 @@
 default_platform(:android)
 
 platform :android do
-  desc "Runs all the tests"
-  lane :test do
-    gradle(task: "test")
-  end
-
-  desc "Submit a new Beta Build to Crashlytics Beta"
-  lane :debug do
+  lane :build_debug do
     gradle(
       task: "clean assembleDebug",
       project_dir: "android/",
+    )
+  end
+end
+
+platform :ios do
+  lane :build_simulator do
+    build_ios_app(
+      workspace: "ios/App/App.xcworkspace",
+      scheme: "App",
+      sdk: "iphonesimulator",
+      skip_package_ipa: true,
+      skip_archive: true,
+      export_method: "development",
+      destination: "generic/platform=iOS Simulator",
+      derived_data_path: "./output",
+      xcargs: "-verbose",
     )
   end
 end
