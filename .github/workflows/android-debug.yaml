@@ -7,7 +7,7 @@ on:
     - add-fastlane
 
 jobs:
-  build:
+  build-android-debug:
     runs-on: ubuntu-latest
 
     steps:
@@ -28,6 +28,15 @@ jobs:
 
     - name: Setup Android SDK
       uses: android-actions/setup-android@v3
+
+    - name: Install npm dependencies
+      run: npm ci
+
+    - name: Build web bundle
+      run: npm run build
+    
+    - name: Sync web bundle
+      run: npx cap sync android
 
     - name: Build Android APK
       run: fastlane android debug
