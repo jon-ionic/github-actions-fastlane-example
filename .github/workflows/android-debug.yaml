@@ -19,6 +19,22 @@ jobs:
       with:
         ruby-version: '3.4'
         bundler-cache: true
+    
+    - name: Setup Java environment
+      uses: actions/setup-java@v4
+      with:
+        java-version: '21'
+        distribution: 'temurin'
 
-    - name: Confirm fastlane install
-      run: fastlane -v
+    - name: Setup Android SDK
+      uses: android-actions/setup-android@v3
+
+    - name: Build Android APK
+      run: fastlane android debug
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: build.apk
+        path: ./android/app/build/outputs/apk/debug/app-debug.apk
+        retention-days: 10
