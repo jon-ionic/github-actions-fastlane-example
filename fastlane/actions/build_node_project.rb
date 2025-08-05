@@ -2,9 +2,9 @@ module Fastlane
   module Actions
     class BuildNodeProjectAction < Action
       def self.run(params)
-        platform = lane_context[SharedValues::DEFAULT_PLATFORM]
-        puts("Platform: #{platform}}")
         sh("npm", "run", "build")
+
+        platform = lane_context[SharedValues::DEFAULT_PLATFORM]
         
         if [:ios, :android].include?(platform)
           begin
