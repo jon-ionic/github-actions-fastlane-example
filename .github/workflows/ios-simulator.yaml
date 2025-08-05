@@ -7,7 +7,7 @@ on:
     - add-fastlane
 
 jobs:
-  build-android-debug:
+  build-ios-simulator:
     runs-on: macos-latest
 
     steps:
@@ -19,6 +19,12 @@ jobs:
       with:
         ruby-version: '3.4'
         bundler-cache: true
+    
+    - name: Install Fastlane
+      run: gem install fastlane
+
+    - name: Verify Fastlane install
+      run: fastlane -v
 
     - name: Setup Node environment
       uses: actions/setup-node@v2
@@ -40,7 +46,7 @@ jobs:
       run: npx cap sync ios
 
     - name: Build iOS app
-      run: bundle exec fastlane ios build_simulator
+      run: fastlane ios build_simulator
 
     - name: Upload artifact
       uses: actions/upload-artifact@v4
