@@ -6,7 +6,12 @@ module Fastlane
 
     class InstallNpmDependenciesAction < Action
       def self.run(params)
-        sh("npm", "ci")
+        begin
+          sh("npm", "ci")
+        rescue StandardError
+          UI.important "Failed to run `npm ci`, falling back to `npm install`"
+          sh("npm", "install")
+        end
       end
 
       #####################################################

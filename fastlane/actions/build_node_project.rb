@@ -7,7 +7,12 @@ module Fastlane
         sh("npm", "run", "build")
         
         if [:ios, :android].include?(platform)
-          sh("npx", "cap", "sync", platform.to_s)
+          begin
+            sh("npx", "cap", "sync", platform.to_s, "--deployment")
+          rescue StandardError
+            UI.important "Failed to run cap sync with deployment flag, attempting without"
+            sh("npx", "cap", "sync", platform.to_s)
+          end
         end
       end
 
