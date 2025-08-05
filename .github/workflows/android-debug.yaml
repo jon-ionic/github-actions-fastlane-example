@@ -40,16 +40,7 @@ jobs:
       with:
         node-version: 20
 
-    - name: Install npm dependencies
-      run: npm ci
-
-    - name: Build web bundle
-      run: npm run build
-    
-    - name: Sync web bundle
-      run: npx cap sync android
-
-    - name: Build Android APK
+    - name: Run Fastlane
       run: fastlane android build_debug
 
     - name: Upload artifact

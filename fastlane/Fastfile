@@ -3,6 +3,8 @@ default_platform(:android)
 platform :android do
   desc "Build Android debug APK"
   lane :build_debug do
+    install_npm_dependencies
+    build_node_project
     gradle(
       task: "clean assembleDebug",
       project_dir: "android/",
@@ -13,6 +15,8 @@ end
 platform :ios do
   desc "Build iOS simulator/.app file"
   lane :build_simulator do
+    install_npm_dependencies
+    build_node_project
     build_ios_app(
       workspace: "ios/App/App.xcworkspace",
       scheme: "App",
