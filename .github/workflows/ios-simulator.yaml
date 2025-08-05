@@ -1,0 +1,49 @@
+name: Build iOS simulator
+
+on:
+  push:
+    branches:
+    - main
+    - add-fastlane
+
+jobs:
+  build-ios-simulator:
+    runs-on: macos-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Setup Ruby environment
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: '3.4'
+        bundler-cache: true
+    
+    - name: Install Fastlane
+      run: gem install fastlane
+
+    - name: Setup Node environment
+      uses: actions/setup-node@v2
+      with:
+        node-version: 20
+
+    - name: Setup Xcode
+      run: |
+        sudo xcode-select -s /Applications/Xcode.app
+        xcodebuild -version
+
+    - name: Setup Cocoapods
+      uses: maxim-lobanov/setup-cocoapods@v1
+      with:
+        podfile-path: ios/App/Podfile.lock
+
+    - name: Run Fastlane
+      run: fastlane ios build_simulator
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: simulator-app
+        path: ./output/Build/Products/Debug-iphonesimulator/App
+        retention-days: 10

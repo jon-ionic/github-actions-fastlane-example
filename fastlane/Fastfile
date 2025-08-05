@@ -1,0 +1,32 @@
+default_platform(:android)
+
+platform :android do
+  desc "Build Android debug APK"
+  lane :build_debug do
+    install_npm_dependencies
+    build_node_project
+    gradle(
+      task: "clean assembleDebug",
+      project_dir: "android/",
+    )
+  end
+end
+
+platform :ios do
+  desc "Build iOS simulator/.app file"
+  lane :build_simulator do
+    install_npm_dependencies
+    build_node_project
+    build_ios_app(
+      workspace: "ios/App/App.xcworkspace",
+      scheme: "App",
+      sdk: "iphonesimulator",
+      skip_package_ipa: true,
+      skip_archive: true,
+      export_method: "development",
+      destination: "generic/platform=iOS Simulator",
+      derived_data_path: "./output",
+      xcargs: "-verbose",
+    )
+  end
+end

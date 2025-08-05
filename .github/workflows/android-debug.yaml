@@ -1,0 +1,48 @@
+name: Build Android debug APK
+
+on:
+  push:
+    branches:
+    - main
+    - add-fastlane
+
+jobs:
+  build-android-debug:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Setup Ruby environment
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: '3.4'
+        bundler-cache: true
+
+    - name: Install Fastlane
+      run: gem install fastlane
+    
+    - name: Setup Java environment
+      uses: actions/setup-java@v4
+      with:
+        java-version: '21'
+        distribution: 'temurin'
+
+    - name: Setup Android SDK
+      uses: android-actions/setup-android@v3
+
+    - name: Setup Node environment
+      uses: actions/setup-node@v2
+      with:
+        node-version: 20
+
+    - name: Run Fastlane
+      run: fastlane android build_debug
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: debug-apk
+        path: ./android/app/build/outputs/apk/debug/app-debug.apk
+        retention-days: 10
