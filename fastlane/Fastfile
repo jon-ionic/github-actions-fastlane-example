@@ -1,21 +1,7 @@
-# This file contains the fastlane.tools configuration
-# You can find the documentation at https://docs.fastlane.tools
-#
-# For a list of all available actions, check out
-#
-#     https://docs.fastlane.tools/actions
-#
-# For a list of all available plugins, check out
-#
-#     https://docs.fastlane.tools/plugins/available-plugins
-#
-
-# Uncomment the line if you want fastlane to automatically update itself
-# update_fastlane
-
 default_platform(:android)
 
 platform :android do
+  desc "Build Android debug APK"
   lane :build_debug do
     gradle(
       task: "clean assembleDebug",
@@ -25,6 +11,7 @@ platform :android do
 end
 
 platform :ios do
+  desc "Build iOS simulator/.app file"
   lane :build_simulator do
     build_ios_app(
       workspace: "ios/App/App.xcworkspace",
