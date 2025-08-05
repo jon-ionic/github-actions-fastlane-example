@@ -4,7 +4,7 @@ module Fastlane
       def self.run(params)
         sh("npm", "run", "build")
 
-        platform = lane_context[SharedValues::DEFAULT_PLATFORM]
+        platform = lane_context[SharedValues::PLATFORM_NAME]
         
         if [:ios, :android].include?(platform)
           begin

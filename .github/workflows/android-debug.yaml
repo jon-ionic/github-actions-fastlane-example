@@ -22,9 +22,6 @@ jobs:
 
     - name: Install Fastlane
       run: gem install fastlane
-
-    - name: Verify Fastlane install
-      run: fastlane -v
     
     - name: Setup Java environment
       uses: actions/setup-java@v4
